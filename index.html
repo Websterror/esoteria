@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Esoter(Poes)ÍA</title>
+  <style>
+    h1 {
+      color: rgb(173, 91, 240)
+    }
+    h3 {
+      color: rgb(255, 102, 0)
+    }
+    body {
+      background-color: black;
+      color: lime;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    textarea {
+      width: 80%;
+      height: 100px;
+      background: #111;
+      color: lime;
+      border: 1px solid lime;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: rgb(255, 102, 0);
+      color: black;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    #output {
+      color:rgb(204, 73, 73);
+      margin-top: 20px;
+      white-space: pre;
+      text-align: center;
+    }
+
+    .ascii {
+      animation: blink 0.8s infinite alternate;
+      color:lime;
+    }
+
+    @keyframes blink {
+      from { opacity: 1; }
+      to { opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Esoter(Poes)ÍA...</h1>
+  <h3>por: thewebsterror (Adrián Ávila Pérez)</h3>
+  <h2>La primera Inteligencia Artificial que calcula tus deseos, te ofrece un demonio y un rito poético para cumplirlos. 
+    Observa a tu demonio con atención y sigue los pasos.</h2>
+  <textarea id="userInput" placeholder="Escribe tu deseo y te diremos los pasos a seguiur"></textarea>
+  <button onclick="mostrarRespuesta()">Enviar</button>
+
+  <div id="output"></div>
+
+  <script>
+    const frases = [
+    "El canto abismal de la serpiente roja: \nBusca un poema en el que puedas unir una cadena de 13 letras A. \nEnciérralas con un lápiz rojo hasta formar una serpiente. Después, debes leerlo en voz alta otras 13 veces mientras embarras tu panza de tierra mientras te arrastras.",
+"El canto abismal del ciclo roto: \nBusca una cueva, adéntrate con un poema que contenga cualquer apócope y leelo siete veces seguidas sin mencionar la palabra con apócope",
+"El canto blasfemo de la liebre no muerta: \nBusca cualquier madrigal que mencione a alguna liebre o conejo. Luego consigue cualquier roedor. \nLee el poema en el equinoxio de privamera que caiga en lunes 1 mientras sostienes al animal en una mano, sin lastimarlo.",
+"El canto blasfemo de las cadenas: \nCompra una cadena de un metro de largo. Utilízala para golpear un suelo con tierra seca, con los zurcos que deje sobre el suelo escribe un poema, \nya escrito por alguien más, que contenga una rima disonante. Luego lee el poema que acabas de escribir.",
+"El canto blasfemo de los trece sellos: \nDibuja una estrella de trece puntas lo suficientemente grande para que quepas en medio. \nToma un poema de trece versos, aisla cada verso cortando el poema y coloca cada uno en una punta distinta. Lee el poema de forma repeitda hasta que el viento coloque todos los versos en el interior contigo.",
+"El canto carmesí de la estrella rota: \nConsigue un espejo, un clavo y un poema con un verso quebrado. Sube a un cerro en un día que no haya luna. \nColoca el espejo en el suelo de modo que refleje a Venus. Golpea la estrella en el reflejo con un clavo y recita el poema por cada fragmennto que haya resultado del golpe.",
+"El canto carmesí de la luna muerta: \nEspera a que haya un eclipse de luna. Durante el clímax del novilunio lee algún poema dedicado a la noche. \nConforme leas, ve tapando las palabras con sangre menstrual.",
+"El canto carmesí del fuego antiguo: \nManten encendido un fuego por 100 días al aire libre. \nEl fuego debe ser alimentado, por lo menos una vez al día con una hoja que contenga un zéjel",
+"El canto de sangre de la corona invertida: \nDeben ser las 00:00. Toma una baraja de tarot, bárajala 7 veces a tu gusto y saca 5 cartas. \nContinúa sólo si te salen estas cartas en el siguiente orden, Emperador, Emperatriz, Loco, Rey, Reina. De ser así, procede a sentar cada carta en una mesa con una cena opulenta y mientras comes, recita un soneto alejandrino distinto a cada uno de los presentes.",
+"El canto de sangre del coro sombrío: \nConsigue una letanía apócrifa de más de 11 versos. \nFrente a un espejo, prende una vela roja y lee la letanía 666 veces al revés usando tu propio aparato fonador.",
+"El canto de sangre del códice prohibido: \nBusca cualquier poema de algún códice medieval. \nEscríbelo en una hoja. Corta tu dedo con la hoja y recita el poema antes de que te salga una gota de sangre.",
+"El canto de sangre del espejo: \nEste rito es imposible de realizar para un humano. Lo siento, tu deseo no es posible por ahora.",
+"El canto del abismo de las cadenas: \nConsigue una canción de 32 versos con estribillo. Encadénate en cualquier cruz de piedra y deja frente a ti la canción. \nNo puedes hablar ni liberarte hasta que alguien pase a cantar por voluntad."
+    ];
+
+    const asciiArt = `
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@++++++===@@@@@@@@@@
+@@@++++++===@@@@@@@@@@@@@*+=-------======+**%@@@@@@@@@@@++++++===@@@@@@@@@@@@
+@@@@@@++++++===@@@@@@@@@@@*-::---------======++++**%@++++++===@@@@@@@@@@@@@
+@@@@@@@@@@++++++===@%-::::::---------=====++++++++++++===+++===@@@@@@@@@@@@@@@
+@@@@@@@@@-:::::::::::::::------=++++++**#%%#**+===--+#%@@@@@@@@@@@@@
+@@@@@@@@@@@*:::::::::::::::--------==+++++***@@@@%*+===--=+*#@@@@@@@@@@@@@++++++===+::::::::::::-------=====++++++=====*@@@@@@@te@@@@@@@@@@
+@@@@@@@@@@@++++++===:::::::::::::------====++++**++++===-%@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@-:::::::::::::::-----====++++***++++=====@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@#::::::::::::::::-----====++******
+@@@@@@@@@@@@@%:+===--#@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@%:::::::::::::::::----==+*+++***#%#***+===--*@@@@@@@@@@@@@@@
+@@@@@:::::::::::::::----===+++*******++===--=@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@:::::::::::::::::-----==++*****##***++==---%@@@@@@@@@@@@@@@@@@@@@has@-:::::::::::::::------=++++++**#%%#**+===--+#%encontrado
+@@@@@@@@@@@*:::::::::::::::--------==+++++***@@@@%*+===--=+*#@@@@@@@@@@@@
+@@@@@@@@@@@--::::::::::::----------==+*****#%@@@@@#*===--=+#%@@@@@@@@@@@@
+@@@@@@@@@@@-::::::::::-@@@@@@@@@@@*:::::::::::--@@@@#-----===*#%%#=-@@@@##@@@%*+==--=+*%@@@@@@@@@@@@
+------===+*#####***%@@@%*===--=+*#@@@------@@@@@#
+@@@@@@@@@@@@=:::::::::-@@@@@@@-::--=+------=#@@@@##***++=---=+#@@@@@@@@@@@@@
+@@@@@@@@@@@@%=::::::-+@@----@=-::----------@@@@###*++=---+%@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@#:::::@@----@:-+##*===%@@%*+##*++=--=@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@#:::::@@@@@@@::::-=*#*=---=++#@@%*+==--@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@-:::::::--===-:::::=#@*+=--=+%@@@@*+==-*@@@@@@@con@@@@@@
+@@@@@@@@@@@@@@@@%::::::::-----:::::=%@@#=--+#@@@@@#*===%@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@+::::::::--=--::::=@@@@*:=#*#@@@@%*+=*@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@%-::::::::-==-:::-+@@@@@++##%@@@@%#+=@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@*:::::::--==-::-+*##@@@@@####%@@%*+@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@+:::::--==-:::-==+#%#*+=+*#%@@@%*+@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@-:::::--=--::--==+*%%%#-=*%@@@%#+==*@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@#=::::::::----=+++++++++**+*%%%%%%*==--==+*#%@@@@@@@@@@@@
+@@@@@@@@@@@@#=-::::::::::::::------==+*%%%%%%%%%#*++===========+*%@@@@@@@
+@@@@@@@@*+=---::::::::::-------==+++***#%%%%%###***+++============#%%##%+
+====*@@%-----::::::::::::::----==+++++*#%%%#####*****+++++=======++%@%%%*
+=--=*@@*----:::::::::::::::::--=+++***####%#***#*******++++++++++***@@@@%
+=--=*@#==--:::::::::::::::::----------*%%#**#***######************##%@@%+
+====*@*=-un:::::::::::::--------------=+****########********#%@%%@@+=
++===+@*=--:::::::::::::::::-------------------------===+++++++*******@@+=
+++=++%*=-::::::::::::::-------terrible-------------====++++++***#%%##@@+=
+**++*#*-:::::::::::---:-------------------------======+++++++**#%@@@@@@*=
+#*****%=-::::::::::---:-------------------------======++++++***#@@@@@@@%+
+####**@*-::::::::::::-:-------------------------======++++++***#@@@@@@@@%
+##***#@#-::::::::::::---------------------------=======+++++***#@@@@@@@@@
+###%#%@%-:::::::::::--------------------------======+++++++****#@@@@@@@@@
+@@@@@@@%:::::::::::--------------================++++++********#@@@@@@@@@
+##%@@@@+:::::::::--------------=================+++++*******destino@@
+#%@@@@*-::::::::---------------================+++++++******##%%@@@@@@@@@
+        `;
+
+    function mostrarRespuesta() {
+      const respuesta = frases[Math.floor(Math.random() * frases.length)];
+      document.getElementById("output").innerHTML =
+        "<div class='ascii'>" + asciiArt + "</div><br>" +
+        "<strong>" + respuesta + "</strong>";
+    }
+  </script>
+
+</body>
+</html>
