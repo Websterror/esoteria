@@ -104,6 +104,11 @@
       }
     });
 
+     function validarContenido() {
+      const texto = input.value.slice(prefix.length).trim();
+      sendBtn.disabled = texto.length === 0;
+    }
+
     const frases = [
       "El canto abismal de la serpiente roja: \nBusca un poema en el que puedas unir una cadena de 13 letras A. \nEnciérralas con un lápiz rojo hasta formar una serpiente. Después, debes leerlo en voz alta otras 13 veces mientras embarras tu panza de tierra mientras te arrastras.",
       "El canto abismal del ciclo roto: \nBusca una cueva, adéntrate con un poema que contenga cualquer apócope y leelo siete veces seguidas sin mencionar la palabra con apócope",
@@ -160,6 +165,7 @@
 
 </body>
 </html>
+
 
 
 
