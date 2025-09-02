@@ -69,7 +69,7 @@
     Observa a tu demonio con atención y sigue los pasos.</h2>
 
  
-  <textarea id="userInput">Deseo qué </textarea>
+  <textarea id="userInput">Deseo que </textarea>
   <button onclick="mostrarRespuesta()">Enviar</button>
 
   <div id="output"></div>
@@ -79,7 +79,7 @@
     const input = document.getElementById("userInput");
     const prefix = "Deseo qué ";
 
-    // Mantener siempre el prefijo
+    
     input.addEventListener("input", () => {
       if (!input.value.startsWith(prefix)) {
         input.value = prefix;
@@ -132,3 +132,4 @@
 
 </body>
 </html>
+
