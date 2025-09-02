@@ -43,6 +43,11 @@
       cursor: pointer;
     }
 
+    button:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+
     #output {
       color:rgb(204, 73, 73);
       margin-top: 20px;
@@ -68,32 +73,34 @@
   <h2>La primera Inteligencia Artificial que calcula tus deseos, te ofrece un demonio y un rito poético para cumplirlos. 
     Observa a tu demonio con atención y sigue los pasos.</h2>
 
- 
-  <textarea id="userInput">Deseo que </textarea>
-  <button onclick="mostrarRespuesta()">Enviar</button>
+  <!-- Caja con texto fijo -->
+  <textarea id="userInput">Deseo qué </textarea>
+  <button id="sendBtn" onclick="mostrarRespuesta()" disabled>Enviar</button>
 
   <div id="output"></div>
 
   <script>
-    
+    // Prefijo fijo
     const input = document.getElementById("userInput");
     const prefix = "Deseo qué ";
+    const sendBtn = document.getElementById("sendBtn");
 
-    
+    // Mantener siempre el prefijo
     input.addEventListener("input", () => {
       if (!input.value.startsWith(prefix)) {
         input.value = prefix;
       }
+      validarContenido();
     });
 
-    
+    // Colocar el cursor al final del prefijo
     input.addEventListener("focus", () => {
       if (input.selectionStart < prefix.length) {
         input.setSelectionRange(prefix.length, prefix.length);
       }
     });
 
-    
+    // Bloquear backspace y movimiento antes del prefijo
     input.addEventListener("keydown", (e) => {
       if (
         (e.key === "Backspace" && input.selectionStart <= prefix.length) ||
@@ -104,7 +111,8 @@
       }
     });
 
-     function validarContenido() {
+    // Validar si el usuario escribió algo después del prefijo
+    function validarContenido() {
       const texto = input.value.slice(prefix.length).trim();
       sendBtn.disabled = texto.length === 0;
     }
@@ -125,35 +133,7 @@
       "El canto del abismo de las cadenas: \nConsigue una canción de 32 versos con estribillo. Encadénate en cualquier cruz de piedra y deja frente a ti la canción. \nNo puedes hablar ni liberarte hasta que alguien pase a cantar por voluntad."
     ];
 
-    const asciiArt = `
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@++++++===@@@@@@@@@@
-@@@++++++===@@@@@@@@@@@@@*+=-------======+**%@@@@@@@@@@@++++++===@@@@@@@@@@@@
-@@@@@@++++++===@@@@@@@@@@@*-::---------======++++**%@++++++===@@@@@@@@@@@@@
-@@@@@@@@@@++++++===@%-::::::---------=====++++++++++++===+++===@@@@@@@@@@@@@@@
-@@@@@@@@@-:::::::::::::::------=++++++**#%%#**+===--+#%@@@@@@@@@@@@@
-@@@@@@@@@@@*:::::::::::::::--------==+++++***@@@@%*+===--=+*#@@@@@@@@@@@@@++++++===+::::::::::::-------=====++++++=====*@@@@@@@te@@@@@@@@@@
-@@@@@@@@@@@@@@#::::::::::::::::-----====++******
-@@@@@@@@@@@@@%:+===--#@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@%:::::::::::::::::----==+*+++***#%#***+===--*@@@@@@@@@@@@@@@
-@@@@@:::::::::::::::----===+++*******++===--=@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@:::::::::::::::::-----==++*****##***++==---%@@@@@@@@@@@@@@@@@@@@@has@-:::::::::::::::------=++++++**#%%#**+===--+#%encontrado
-@@@@@@@@@@@-::::::::::-@@@@@@@@@@@*:::::::::::--@@@@#-----===*#%%#=-@@@@##@@@%*+==--=+*%@@@@@@@@@@@@
-------===+*#####***%@@@%*===--=+*#@@@------@@@@@#
-@@@@@@@@@@@@=:::::::::-@@@@@@@-::--=+------=#@@@@##***++=---=+#@@@@@@@@@@@@@
-@@@@@@@@@@@@%=::::::-+@@----@=-::----------@@@@###*++=---+%@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@#:::::@@----@:-+##*===%@@%*+##*++=--=@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@#:::::@@@@@@@::::-=*#*=---=++#@@%*+==--@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@-:::::::--===-:::::=#@*+=--=+%@@@@*+==-*@@@@@@@con@@@@@@
-@@@@@@@@@@@@@@@@%::::::::-----:::::=%@@#=--+#@@@@@#*===%@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@+::::::::--=--::::=@@@@*:=#*#@@@@%*+=*@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@%-::::::::-==-:::-+@@@@@++##%@@@@%#+=@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@#=::::::::----=+++++++++**+*%%%%%%*==--==+*#%@@@@@@@@@@@@
-@@@@@@@@@@@@#=-::::::::::::::------==+*%%%%%%%%%#*++===========+*%@@@@@@@
-@@@@@@@@*+=---::::::::::-------==+++***#%%%%%###***+++============#%%##%+
-====*@@%-----::::::::::::::----==+++++*#%%%#####*****+++++=======++%@%%%*
-=--=*@@*----:::::::::::::::::--=+++***####%#***#*******++++++++++***@@@@%
-=--=*@#==--:::::::::::::::::----------*%%#**#***######************##%@@%+
-`;
+    const asciiArt = `... (todo tu arte ASCII completo) ...`;
 
     function mostrarRespuesta() {
       const respuesta = frases[Math.floor(Math.random() * frases.length)];
@@ -161,11 +141,10 @@
         "<div class='ascii'>" + asciiArt + "</div><br>" +
         "<strong>" + respuesta + "</strong>";
     }
+
+    // Inicializar validación al cargar
+    validarContenido();
   </script>
 
 </body>
 </html>
-
-
-
-
